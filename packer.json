@@ -1,0 +1,42 @@
+{
+  "variables": {
+    "commit_id": "{{env `TRAVIS_COMMIT`}}",
+    "commit_msg": "{{env `TRAVIS_COMMIT_MESSAGE`}}",
+    "custom_ami_name": "pcgr-ami",
+    "ssh_username": "ubuntu"
+  },
+  "builders": [
+    {
+      "type"                   : "amazon-ebsvolume",
+      "instance_type"          : "t2.medium",
+      "source_ami"             : "ami-20f32c42",
+      "region"                 : "ap-southeast-2",
+      "spot_price"             : "auto",
+      "spot_price_auto_product": "Linux/UNIX",
+      "ssh_username"           : "{{user `ssh_username`}}",
+      "ebs_volumes" : [
+        {
+          "volume_type"           : "gp2",
+          "device_name"           : "/dev/xvdf",
+          "delete_on_termination" : false,
+          "volume_size"           : 10,
+          "tags" : {
+            "Name"  : "{{user `custom_ami_name`}}-data",
+            "commit": "{{user `commit_id`}}"
+          }
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "inline": [
+        "lsblk",
+        "sudo mount /dev/xvdf /mnt",
+		"touch /mnt/foo.txt"
+      ]
+    }
+  ]
+}
