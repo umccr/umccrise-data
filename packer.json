@@ -35,7 +35,8 @@
       "inline": [
         "lsblk",
         "sudo mount /dev/xvdf /mnt",
-		"touch /mnt/foo.txt"
+        "touch /mnt/foo.txt",
+        "aws s3 ls umccr-umccrise-refdata-dev"
       ]
     }
   ]
