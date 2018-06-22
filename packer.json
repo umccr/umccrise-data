@@ -2,7 +2,7 @@
   "variables": {
     "commit_id": "{{env `TRAVIS_COMMIT`}}",
     "commit_msg": "{{env `TRAVIS_COMMIT_MESSAGE`}}",
-    "custom_ami_name": "pcgr-ami",
+    "custom_ami_name": "umccrise",
     "ssh_username": "ubuntu"
   },
   "builders": [
@@ -33,13 +33,11 @@
       "type": "shell",
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "inline": [
-        "lsblk",
+        "sudo apt-get update && apt-get install -y python3-pip && pip3 install awscli",
         "sudo mkfs -t btrfs /dev/xvdf",
         "sudo echo -e '/dev/xvdf\t/mnt\tbtrfs\tdefaults\t0\t0' | sudo tee -a /etc/fstab",
         "sudo mount -a",
-        "touch /mnt/foo.txt",
-        "sudo apt-get update && apt-get install -y python3-pip && pip install awscli",
-        "aws s3 ls umccr-umccrise-refdata-dev"
+        "aws s3 cp --recursive s3://umccr-umccrise-refdata-dev /mnt"
       ]
     }
   ]
