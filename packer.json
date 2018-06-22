@@ -2,15 +2,17 @@
   "variables": {
     "commit_id": "{{env `TRAVIS_COMMIT`}}",
     "commit_msg": "{{env `TRAVIS_COMMIT_MESSAGE`}}",
-    "custom_ami_name": "umccrise",
+    "custom_ami_name": "umccrise-data",
     "ssh_username": "ubuntu"
   },
   "builders": [
     {
+      "name": "{{user `custom_ami_name`}}",
       "type"                   : "amazon-ebsvolume",
       "instance_type"          : "t2.medium",
       "source_ami"             : "ami-20f32c42",
       "region"                 : "ap-southeast-2",
+      "iam_instance_profile"   : "new_packer_instance_profile",
       "spot_price"             : "auto",
       "spot_price_auto_product": "Linux/UNIX",
       "ssh_username"           : "{{user `ssh_username`}}",
