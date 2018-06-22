@@ -12,7 +12,7 @@
       "instance_type"          : "t2.medium",
       "source_ami"             : "ami-20f32c42",
       "region"                 : "ap-southeast-2",
-      "iam_instance_profile"   : "new_packer_instance_profile",
+      "iam_instance_profile"   : "packer_instance_profile_umccrise",
       "spot_price"             : "auto",
       "spot_price_auto_product": "Linux/UNIX",
       "ssh_username"           : "{{user `ssh_username`}}",
