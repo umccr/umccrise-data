@@ -38,6 +38,7 @@
         "sudo echo -e '/dev/xvdf\t/mnt\tbtrfs\tdefaults\t0\t0' | sudo tee -a /etc/fstab",
         "sudo mount -a",
         "touch /mnt/foo.txt",
+        "sudo apt-get update && apt-get install -y python3-pip && pip install awscli",
         "aws s3 ls umccr-umccrise-refdata-dev"
       ]
     }
