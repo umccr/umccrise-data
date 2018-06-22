@@ -34,7 +34,9 @@
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "inline": [
         "lsblk",
-        "sudo mount /dev/xvdf /mnt",
+        "sudo mkfs -t btrfs /dev/xvdf",
+        "sudo echo -e '/dev/xvdf\t/mnt\tbtrfs\tdefaults\t0\t0' | sudo tee -a /etc/fstab",
+        "sudo mount -a",
         "touch /mnt/foo.txt",
         "aws s3 ls umccr-umccrise-refdata-dev"
       ]
